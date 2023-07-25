@@ -24,7 +24,8 @@ public:
     void free();
     
 private:
-    SDL_Texture* gTexture;
+    SDL_Texture* gTexture_img;
+    SDL_Texture* gTexture_font;
     TTF_Font* gFont;
     SDL_Color fontRed = { 255, 0, 0 };
     

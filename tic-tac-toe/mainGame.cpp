@@ -10,16 +10,16 @@
 #include "mouseEvent.hpp"
 #include "data.hpp"
 
-MainGame* MainGame::p = nullptr;
-MainGame* MainGame::pInstance()
-{
-    if ( p==nullptr )
-    {
-        p = new MainGame();
-        return p;
-    }
-    return p;
-}
+//MainGame* MainGame::p = nullptr;
+//MainGame* MainGame::pInstance()
+//{
+//    if ( p==nullptr )
+//    {
+//        p = new MainGame();
+//        return p;
+//    }
+//    return p;
+//}
 
 
 MainGame::MainGame()
@@ -60,6 +60,15 @@ bool MainGame::gameInit(const char *title, int x, int y, int w, int h, Uint32 fl
         printf( "TTF Init Error : %s \n", TTF_GetError());
         return false;
     }
+    
+    if ( sceneFirstTexture.loadFont("lazy.ttf", 18, "Please choose icon", gRenderer) == false ) return false;
+    if ( sceneSecondTexturePlayer.loadFont("lazy.ttf", 12, "  player: ", gRenderer) == false ) return false;
+    if ( sceneSecondTextureComputer.loadFont("lazy.ttf", 12, "  computer: ", gRenderer) == false ) return false;
+    if ( sceneSecondTextureRun.loadFont("lazy.ttf", 12, "  Run first: ", gRenderer) == false ) return false;
+    go = whoGoFirst();
+    if ( sceneSecondTextureWhoRun.loadFont("lazy.ttf", 12, go, gRenderer) == false ) return false;
+    
+    if ( sceneFirstTexture.loadImg("icons.png", gRenderer) == false ) return false;
     
     WINDOW_HEIGHT = h;
     WINDOW_WIDTH = w;
@@ -103,16 +112,13 @@ void MainGame::renderer01()
     SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
     SDL_RenderClear(gRenderer);
 
-    if ( sceneFirstTexture.loadFont("lazy.ttf", 18, "Please choose icon", gRenderer) )
-    {
-        sceneFirstTexture.fontShow(gRenderer, 60, 60);
-        sceneFirstDraw.drawRec(gRenderer, 70, 100, 48, 48);
-        sceneFirstDraw.drawRec(gRenderer, 160, 100, 48, 48);
-        
-        sceneFirstTexture.loadImg("icons.png", gRenderer);
-        sceneFirstTexture.imgClipAndShow(gRenderer, 77, 107, 1);
-        sceneFirstTexture.imgClipAndShow(gRenderer, 167, 107, 2);
-    }
+    sceneFirstTexture.fontShow(gRenderer, 60, 60);
+    sceneFirstDraw.drawRec(gRenderer, 70, 100, 48, 48);
+    sceneFirstDraw.drawRec(gRenderer, 160, 100, 48, 48);
+
+    sceneFirstTexture.imgClipAndShow(gRenderer, 77, 107, 1);
+    sceneFirstTexture.imgClipAndShow(gRenderer, 167, 107, 2);
+
     
     SDL_RenderPresent(gRenderer);
 
@@ -131,22 +137,28 @@ void MainGame::renderer02()
     sceneSecondDraw.drawLine(gRenderer, (WINDOW_WIDTH - 100) / 3 * 2 , 0, (WINDOW_WIDTH - 100) / 3 * 2 , WINDOW_HEIGHT);
     
     // player and computer choose
-    sceneSecondTexturePlayer.loadFont("lazy.ttf", 12, "  player: ", gRenderer);
     sceneSecondTexturePlayer.fontShow(gRenderer, 300, 30);
-    sceneSecondTextureComputer.loadFont("lazy.ttf", 12, "  computer: ", gRenderer);
     sceneSecondTextureComputer.fontShow(gRenderer, 300, 60);
     
     
-    sceneSecondTexturePlayer.loadImg("icons.png", gRenderer);
+//    sceneSecondTexturePlayer.loadImg("icons.png", gRenderer);
     if ( playerLetter == 'O' )
     {
-        sceneSecondTexturePlayer.imgClipAndShow(gRenderer, 360, 20, 1);
-        sceneSecondTexturePlayer.imgClipAndShow(gRenderer, 360, 50, 2);
+        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 20, 1);
+        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 50, 2);
     }
     else
     {
-        sceneSecondTexturePlayer.imgClipAndShow(gRenderer, 360, 20, 2);
-        sceneSecondTexturePlayer.imgClipAndShow(gRenderer, 360, 50, 1);
+        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 20, 2);
+        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 50, 1);
+    }
+    
+    sceneSecondTextureRun.fontShow(gRenderer, 300, 100);
+    sceneSecondTextureWhoRun.fontShow(gRenderer, 315, 120);
+    
+    if ( go == "player")
+    {
+        
     }
     
     
@@ -159,8 +171,13 @@ void MainGame::update()
 
 }
 
-MainGame::~MainGame()
+void MainGame::close()
 {
     SDL_DestroyWindow(gWindow);
     SDL_DestroyRenderer(gRenderer);
+}
+
+MainGame::~MainGame()
+{
+    close();
 }

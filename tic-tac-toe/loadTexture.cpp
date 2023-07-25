@@ -10,7 +10,8 @@
 
 LoadTexture::LoadTexture()
 {
-    gTexture = nullptr;
+    gTexture_img = nullptr;
+    gTexture_font = nullptr;
     imgWidth = 0;
     imgHeight = 0;
 }
@@ -29,8 +30,8 @@ bool LoadTexture::loadImg(const char *file, SDL_Renderer *renderer)
         return false;
     }
     
-    gTexture = SDL_CreateTextureFromSurface(renderer, surfLoadImg);
-    if ( gTexture == nullptr )
+    gTexture_img = SDL_CreateTextureFromSurface(renderer, surfLoadImg);
+    if ( gTexture_img == nullptr )
     {
         printf("create Texture error : %s \n", SDL_GetError());
         return false;
@@ -49,7 +50,7 @@ bool LoadTexture::loadFont(const char *fileTTF, int fontSize, std::string str, S
     gFont = TTF_OpenFont(fileTTF, fontSize);
     if ( gFont == nullptr )
     {
-        printf("TTF Open Font Error : %s \n", TTF_GetError());
+        printf("TTF Open Font Error : %s ,%s \n", str.c_str(), TTF_GetError());
         return false;
     }
     SDL_Surface* tmpSurface = TTF_RenderText_Solid(gFont, str.c_str(), fontRed );
@@ -61,7 +62,7 @@ bool LoadTexture::loadFont(const char *fileTTF, int fontSize, std::string str, S
     fontWidth = tmpSurface->w;
     fontHeight = tmpSurface->h;
     
-    gTexture = SDL_CreateTextureFromSurface( gRenderer, tmpSurface );
+    gTexture_font = SDL_CreateTextureFromSurface( gRenderer, tmpSurface );
     SDL_FreeSurface(tmpSurface);
     
     return true;
@@ -83,7 +84,7 @@ void LoadTexture::imgClipAndShow(SDL_Renderer* gRenderer, int positionX, int pos
     if ( flag == 1 ) { s2.x = positionX; s2.y = positionY;}
     if ( flag == 2 ) { s1.x = imgWidth / 2; s2.x = positionX; s2.y = positionY;}
 
-    SDL_RenderCopyEx(gRenderer, gTexture, &s1, &s2, 0, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(gRenderer, gTexture_img, &s1, &s2, 0, nullptr, SDL_FLIP_NONE);
 }
 
 void LoadTexture::fontShow(SDL_Renderer *gRenderer, int positionX, int positionY)
@@ -100,16 +101,18 @@ void LoadTexture::fontShow(SDL_Renderer *gRenderer, int positionX, int positionY
     s2.x = positionX; s2.y = positionY;
 
 
-    SDL_RenderCopy(gRenderer, gTexture, &s1, &s2);
+    SDL_RenderCopy(gRenderer, gTexture_font, &s1, &s2);
 }
 
 
 void LoadTexture::free()
 {
-    if ( gTexture != nullptr )
+    if ( ( gTexture_img != nullptr ) and ( gTexture_font != nullptr ) )
     {
-        SDL_DestroyTexture(gTexture);
-        gTexture = nullptr;
+        SDL_DestroyTexture(gTexture_img);
+        SDL_DestroyTexture(gTexture_font);
+        gTexture_img = nullptr;
+        gTexture_font = nullptr;
         imgWidth = 0;
         imgHeight = 0;
     }

@@ -19,18 +19,20 @@
 class MainGame
 {
 public:
-    static MainGame* p;
-    static MainGame* pInstance();
+//    static MainGame* p;
+//    static MainGame* pInstance();
     
     bool isGameRunning;
     char playerLetter;
     char computerLetter;
+    std::string go;
     
     bool gameInit(const char *title, int x, int y, int w, int h, Uint32 flags);
     void handleEvent();
     void renderer01();
     void renderer02();
     void update();
+    void close();
     
     int getWindowWIDTH();
     int getWindowHEIGHT();
@@ -53,6 +55,8 @@ private:
     RendererDraw sceneSecondDraw;
     LoadTexture sceneSecondTexturePlayer;
     LoadTexture sceneSecondTextureComputer;
+    LoadTexture sceneSecondTextureRun;
+    LoadTexture sceneSecondTextureWhoRun;
 };
 
 #endif /* mainGame_hpp */
