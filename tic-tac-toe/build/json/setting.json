@@ -1,9 +1,4 @@
 {
-    "Windows": 
-    {
-        "Width": 400,
-        "Height": 300
-    },
     "path":
     {
         "img_path": "img/icons.png",

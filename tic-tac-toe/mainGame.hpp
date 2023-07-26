@@ -14,18 +14,19 @@
 #include "loadTexture.hpp"
 #include <SDL2_ttf/SDL_ttf.h>
 #include <string>
+#include "include/nlohmann/json.hpp"
 
+using json = nlohmann::json;
 
 class MainGame
 {
 public:
-//    static MainGame* p;
-//    static MainGame* pInstance();
     
     bool isGameRunning;
     char playerLetter;
     char computerLetter;
     std::string go;
+    json setting;
     
     bool gameInit(const char *title, int x, int y, int w, int h, Uint32 flags);
     void handleEvent();

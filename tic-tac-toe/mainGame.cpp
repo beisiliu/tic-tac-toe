@@ -9,17 +9,7 @@
 #include "rendererDraw.hpp"
 #include "mouseEvent.hpp"
 #include "data.hpp"
-
-//MainGame* MainGame::p = nullptr;
-//MainGame* MainGame::pInstance()
-//{
-//    if ( p==nullptr )
-//    {
-//        p = new MainGame();
-//        return p;
-//    }
-//    return p;
-//}
+#include <fstream>
 
 
 MainGame::MainGame()
@@ -32,7 +22,6 @@ MainGame::MainGame()
     gWindow = nullptr;
     gRenderer = nullptr;
 }
-
 
 bool MainGame::gameInit(const char *title, int x, int y, int w, int h, Uint32 flags){
     if ( SDL_Init(SDL_INIT_EVERYTHING) != 0 )
@@ -55,20 +44,30 @@ bool MainGame::gameInit(const char *title, int x, int y, int w, int h, Uint32 fl
         return false;
     }
     
+    std::fstream settingJson("json/setting.json");
+    if ( !settingJson )
+    {
+        printf( "load setting.json error \n" );
+        return false;
+    }
+
     if ( TTF_Init() == -1 )
     {
         printf( "TTF Init Error : %s \n", TTF_GetError());
         return false;
     }
-    
-    if ( sceneFirstTexture.loadFont("lazy.ttf", 18, "Please choose icon", gRenderer) == false ) return false;
-    if ( sceneSecondTexturePlayer.loadFont("lazy.ttf", 12, "  player: ", gRenderer) == false ) return false;
-    if ( sceneSecondTextureComputer.loadFont("lazy.ttf", 12, "  computer: ", gRenderer) == false ) return false;
-    if ( sceneSecondTextureRun.loadFont("lazy.ttf", 12, "  Run first: ", gRenderer) == false ) return false;
+  
+    setting = json::parse(settingJson);
+    std::string imgPath = setting["path"]["img_path"];
+    std::string ttfPath = setting["path"]["ttf_path"];
+    if ( sceneFirstTexture.loadFont(ttfPath.c_str(), 18, setting["text"]["FirstScenes"], gRenderer) == false ) return false;
+    if ( sceneSecondTexturePlayer.loadFont(ttfPath.c_str(), 12, setting["text"]["SecondScenes_play"], gRenderer) == false ) return false;
+    if ( sceneSecondTextureComputer.loadFont(ttfPath.c_str(), 12, setting["text"]["SecondScenes_computer"], gRenderer) == false ) return false;
+    if ( sceneSecondTextureRun.loadFont(ttfPath.c_str(), 12, setting["text"]["SecondScenes_run"], gRenderer) == false ) return false;
     go = whoGoFirst();
-    if ( sceneSecondTextureWhoRun.loadFont("lazy.ttf", 12, go, gRenderer) == false ) return false;
+    if ( sceneSecondTextureWhoRun.loadFont(ttfPath.c_str(), 12, go, gRenderer) == false ) return false;
     
-    if ( sceneFirstTexture.loadImg("icons.png", gRenderer) == false ) return false;
+    if ( sceneFirstTexture.loadImg(imgPath.c_str(), gRenderer) == false ) return false;
     
     WINDOW_HEIGHT = h;
     WINDOW_WIDTH = w;
