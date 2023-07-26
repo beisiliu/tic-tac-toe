@@ -1,0 +1,19 @@
+{
+    "Windows": 
+    {
+        "Width": 400,
+        "Height": 300
+    },
+    "path":
+    {
+        "img_path": "img/icons.png",
+        "ttf_path": "ttf/lazy.ttf"
+    },
+    "text":
+    {
+        "FirstScenes": "Please choose icon",
+        "SecondScenes_play": " player: ",
+        "SecondScenes_computer": "  computer: ",
+        "SecondScenes_run": "  Run first: "
+    }
+}
