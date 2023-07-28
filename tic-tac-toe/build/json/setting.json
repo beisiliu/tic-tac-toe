@@ -7,8 +7,13 @@
     "text":
     {
         "FirstScenes": "Please choose icon",
-        "SecondScenes_play": " player: ",
+        "SecondScenes_play": "  player: ",
         "SecondScenes_computer": "  computer: ",
         "SecondScenes_run": "  Run first: "
+    },
+    "initCoordinate":
+    {
+        "1":{ "x": 30, "y": 230}
+
     }
 }

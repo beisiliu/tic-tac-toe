@@ -21,13 +21,13 @@ int main()
         frameStart = SDL_GetTicks();
         mainGame->handleEvent();
         // scenes01
-        if ( mainGame->playerLetter == '1' )
+        if ( mainGame->playerLetter == 0 )
         {
             mainGame->renderer01();
         }
 
         // scenes02
-        if (mainGame->playerLetter != '1')
+        if (mainGame->playerLetter != 0)
         {
             mainGame->renderer02();
         }

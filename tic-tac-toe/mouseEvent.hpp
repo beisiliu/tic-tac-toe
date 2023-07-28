@@ -22,8 +22,9 @@ public:
     int getLButtonDownY() { return mPostion.y; }
     
     static LButton* pLButtonInstance();
-private:
     SDL_Point mPostion;
+private:
+
     static LButton* pLButton;
 };
 

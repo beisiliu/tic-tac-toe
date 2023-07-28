@@ -10,17 +10,24 @@
 #include "mouseEvent.hpp"
 #include "data.hpp"
 #include <fstream>
+#include <iostream>
 
 
 MainGame::MainGame()
 {
     // init variables
     isGameRunning = true;
-    playerLetter = '1';
-    computerLetter = '1';
+    playerLetter = 0;
+    computerLetter = 0;
     
     gWindow = nullptr;
     gRenderer = nullptr;
+
+    // init board
+    for (int i = 0; i < board.size(); ++i)
+    {
+        board[i] = 1;
+    }
 }
 
 bool MainGame::gameInit(const char *title, int x, int y, int w, int h, Uint32 flags){
@@ -64,7 +71,8 @@ bool MainGame::gameInit(const char *title, int x, int y, int w, int h, Uint32 fl
     if ( sceneSecondTexturePlayer.loadFont(ttfPath.c_str(), 12, setting["text"]["SecondScenes_play"], gRenderer) == false ) return false;
     if ( sceneSecondTextureComputer.loadFont(ttfPath.c_str(), 12, setting["text"]["SecondScenes_computer"], gRenderer) == false ) return false;
     if ( sceneSecondTextureRun.loadFont(ttfPath.c_str(), 12, setting["text"]["SecondScenes_run"], gRenderer) == false ) return false;
-    go = whoGoFirst();
+    // go = data.whoGoFirst();
+    go = "player";
     if ( sceneSecondTextureWhoRun.loadFont(ttfPath.c_str(), 12, go, gRenderer) == false ) return false;
     
     if ( sceneFirstTexture.loadImg(imgPath.c_str(), gRenderer) == false ) return false;
@@ -84,22 +92,28 @@ void MainGame::handleEvent()
         }
         
         LButton::pLButtonInstance()->handleEvent( e );
-        if ( playerLetter == '1' )
+        if ( playerLetter == 0 )
         {
             if ( ( LButton::pLButtonInstance()->getLButtonDownX() > 70 and LButton::pLButtonInstance()->getLButtonDownX() < 118 ) and
                  ( LButton::pLButtonInstance()->getLButtonDownY() > 100 and LButton::pLButtonInstance()->getLButtonDownY() < 148 ) )
             {
-                playerLetter = 'O';
-                computerLetter = 'X';
+                playerLetter = circle;
+                computerLetter = diff;
                 
             }
             if ( ( LButton::pLButtonInstance()->getLButtonDownX() > 160 and LButton::pLButtonInstance()->getLButtonDownY() < 208 ) and
                  ( LButton::pLButtonInstance()->getLButtonDownY() > 100 and LButton::pLButtonInstance()->getLButtonDownY() < 148 ) )
             {
-                playerLetter = 'X';
-                computerLetter = 'O';
+                playerLetter = diff;
+                computerLetter = circle;
             }
         }
+        // else
+        // {
+        //     // LButton::pLButtonInstance()->mPostion.x = LButton::pLButtonInstance()->getLButtonDownX();
+        //     // LButton::pLButtonInstance()->mPostion.y = LButton::pLButtonInstance()->getLButtonDownY();
+        //     postionXY = data.postionXY(LButton::pLButtonInstance()->getLButtonDownX(), LButton::pLButtonInstance()->getLButtonDownY());
+        // }
 
     }
 }
@@ -117,10 +131,8 @@ void MainGame::renderer01()
 
     sceneFirstTexture.imgClipAndShow(gRenderer, 77, 107, 1);
     sceneFirstTexture.imgClipAndShow(gRenderer, 167, 107, 2);
-
-    
+ 
     SDL_RenderPresent(gRenderer);
-
 }
 
 // scenes02
@@ -139,17 +151,15 @@ void MainGame::renderer02()
     sceneSecondTexturePlayer.fontShow(gRenderer, 300, 30);
     sceneSecondTextureComputer.fontShow(gRenderer, 300, 60);
     
-    
-//    sceneSecondTexturePlayer.loadImg("icons.png", gRenderer);
-    if ( playerLetter == 'O' )
+    if ( playerLetter == circle )
     {
-        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 20, 1);
-        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 50, 2);
+        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 20, circle);
+        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 50, diff);
     }
     else
     {
-        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 20, 2);
-        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 50, 1);
+        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 20, diff);
+        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 50, circle);
     }
     
     sceneSecondTextureRun.fontShow(gRenderer, 300, 100);
@@ -157,6 +167,8 @@ void MainGame::renderer02()
     
     if ( go == "player")
     {
+        // drawBoard
+        drawBoard();
         
     }
     
@@ -164,11 +176,21 @@ void MainGame::renderer02()
     SDL_RenderPresent(gRenderer);
 }
 
-
 void MainGame::update()
 {
 
 }
+
+
+void MainGame::drawBoard()
+{
+    for (int i = 1; i < 2; ++i)
+    {   
+        std::cout << std::to_string(i) << std::endl;
+        sceneFirstTexture.imgClipAndShow(gRenderer, setting["initCoordinate"][std::to_string(i)]["x"], setting["initCoordinate"][std::to_string(i)]["y"], playerLetter);          
+    }
+}
+
 
 void MainGame::close()
 {

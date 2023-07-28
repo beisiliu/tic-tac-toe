@@ -15,6 +15,8 @@
 #include <SDL2_ttf/SDL_ttf.h>
 #include <string>
 #include "include/nlohmann/json.hpp"
+#include "data.hpp"
+#include <array>
 
 using json = nlohmann::json;
 
@@ -23,8 +25,8 @@ class MainGame
 public:
     
     bool isGameRunning;
-    char playerLetter;
-    char computerLetter;
+    int playerLetter;
+    int computerLetter;
     std::string go;
     json setting;
     
@@ -35,9 +37,7 @@ public:
     void update();
     void close();
     
-    int getWindowWIDTH();
-    int getWindowHEIGHT();
-    
+    void drawBoard();
     MainGame();
     ~MainGame();
 
@@ -45,6 +45,8 @@ private:
     int WINDOW_WIDTH;
     int WINDOW_HEIGHT;
     
+    const int circle = 1;
+    const int diff = 2;
     
     SDL_Window* gWindow;
     SDL_Renderer* gRenderer;
@@ -58,6 +60,9 @@ private:
     LoadTexture sceneSecondTextureComputer;
     LoadTexture sceneSecondTextureRun;
     LoadTexture sceneSecondTextureWhoRun;
+
+    std::array<int, 10> board;
+    std::pair<int, int> postionXY;
 };
 
 #endif /* mainGame_hpp */
