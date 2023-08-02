@@ -9,11 +9,21 @@
         "FirstScenes": "Please choose icon",
         "SecondScenes_play": "  player: ",
         "SecondScenes_computer": "  computer: ",
-        "SecondScenes_run": "  Run first: "
+        "SecondScenes_run": "  Run first: ",
+        "ThirdScenesY": "Y",
+        "ThirdScenesN": "N",
+        "ThirdScenesPlayAgain": "Do you want play again ?" 
     },
     "initCoordinate":
     {
-        "1":{ "x": 30, "y": 230}
-
+        "1":{ "x": 30, "y": 230 },
+        "2":{ "x": 130, "y": 230 },
+        "3":{ "x": 230, "y": 230 },
+        "4":{ "x": 30, "y": 130 },
+        "5":{ "x": 130, "y": 130 },
+        "6":{ "x": 230, "y": 130 },
+        "7":{ "x": 30, "y": 30 },
+        "8":{ "x": 130, "y": 30 },
+        "9":{ "x": 230, "y": 30 }
     }
 }

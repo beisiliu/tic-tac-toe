@@ -15,18 +15,21 @@
 
 MainGame::MainGame()
 {
-    // init variables
+    initData();
+    gWindow = nullptr;
+    gRenderer = nullptr;
+}
+
+void MainGame::initData(){
+        // init variables
     isGameRunning = true;
     playerLetter = 0;
     computerLetter = 0;
-    
-    gWindow = nullptr;
-    gRenderer = nullptr;
 
     // init board
     for (int i = 0; i < board.size(); ++i)
     {
-        board[i] = 1;
+        board[i] = 0;
     }
 }
 
@@ -65,14 +68,19 @@ bool MainGame::gameInit(const char *title, int x, int y, int w, int h, Uint32 fl
     }
   
     setting = json::parse(settingJson);
-    std::string imgPath = setting["path"]["img_path"];
-    std::string ttfPath = setting["path"]["ttf_path"];
+    imgPath = setting["path"]["img_path"];
+    ttfPath = setting["path"]["ttf_path"];
     if ( sceneFirstTexture.loadFont(ttfPath.c_str(), 18, setting["text"]["FirstScenes"], gRenderer) == false ) return false;
     if ( sceneSecondTexturePlayer.loadFont(ttfPath.c_str(), 12, setting["text"]["SecondScenes_play"], gRenderer) == false ) return false;
     if ( sceneSecondTextureComputer.loadFont(ttfPath.c_str(), 12, setting["text"]["SecondScenes_computer"], gRenderer) == false ) return false;
     if ( sceneSecondTextureRun.loadFont(ttfPath.c_str(), 12, setting["text"]["SecondScenes_run"], gRenderer) == false ) return false;
-    // go = data.whoGoFirst();
-    go = "player";
+    if ( sceneThirdTextureX.loadFont(ttfPath.c_str(), 24, setting["text"]["ThirdScenesY"], gRenderer) == false ) return false;
+    if ( sceneThirdTextureY.loadFont(ttfPath.c_str(), 24, setting["text"]["ThirdScenesN"], gRenderer) == false ) return false;
+    if ( sceneThirdTexturePlayAgain.loadFont(ttfPath.c_str(), 18, setting["text"]["ThirdScenesPlayAgain"], gRenderer) == false ) return false;
+
+    go = data.whoGoFirst();
+    // go = "player";
+    std::cout << go << std::endl;
     if ( sceneSecondTextureWhoRun.loadFont(ttfPath.c_str(), 12, go, gRenderer) == false ) return false;
     
     if ( sceneFirstTexture.loadImg(imgPath.c_str(), gRenderer) == false ) return false;
@@ -99,6 +107,8 @@ void MainGame::handleEvent()
             {
                 playerLetter = circle;
                 computerLetter = diff;
+                LButton::pLButtonInstance()->mPostion.x = 0;
+                LButton::pLButtonInstance()->mPostion.y = 0;
                 
             }
             if ( ( LButton::pLButtonInstance()->getLButtonDownX() > 160 and LButton::pLButtonInstance()->getLButtonDownY() < 208 ) and
@@ -106,14 +116,15 @@ void MainGame::handleEvent()
             {
                 playerLetter = diff;
                 computerLetter = circle;
+                LButton::pLButtonInstance()->mPostion.x = 0;
+                LButton::pLButtonInstance()->mPostion.y = 0;
             }
         }
-        // else
-        // {
-        //     // LButton::pLButtonInstance()->mPostion.x = LButton::pLButtonInstance()->getLButtonDownX();
-        //     // LButton::pLButtonInstance()->mPostion.y = LButton::pLButtonInstance()->getLButtonDownY();
-        //     postionXY = data.postionXY(LButton::pLButtonInstance()->getLButtonDownX(), LButton::pLButtonInstance()->getLButtonDownY());
-        // }
+        else
+        {
+            LButton::pLButtonInstance()->mPostion.x = LButton::pLButtonInstance()->getLButtonDownX();
+            LButton::pLButtonInstance()->mPostion.y = LButton::pLButtonInstance()->getLButtonDownY();
+        }
 
     }
 }
@@ -138,43 +149,139 @@ void MainGame::renderer01()
 // scenes02
 void MainGame::renderer02()
 {
-    // draw playgroud
-    SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
-    SDL_RenderClear(gRenderer);
-    
-    sceneSecondDraw.drawLine(gRenderer, 0, WINDOW_HEIGHT / 3, WINDOW_WIDTH - 100, WINDOW_HEIGHT / 3);
-    sceneSecondDraw.drawLine(gRenderer, 0, WINDOW_HEIGHT / 3 * 2 , WINDOW_WIDTH - 100, WINDOW_HEIGHT / 3 * 2);
-    sceneSecondDraw.drawLine(gRenderer, (WINDOW_WIDTH - 100) / 3, 0, (WINDOW_WIDTH - 100) / 3, WINDOW_HEIGHT);
-    sceneSecondDraw.drawLine(gRenderer, (WINDOW_WIDTH - 100) / 3 * 2 , 0, (WINDOW_WIDTH - 100) / 3 * 2 , WINDOW_HEIGHT);
-    
-    // player and computer choose
-    sceneSecondTexturePlayer.fontShow(gRenderer, 300, 30);
-    sceneSecondTextureComputer.fontShow(gRenderer, 300, 60);
-    
-    if ( playerLetter == circle )
+    if ( ( !data.isWin(playerLetter, board) ) and ( !data.isWin(computerLetter, board) ) and ( !data.boardFull(board)))
     {
-        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 20, circle);
-        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 50, diff);
+        // draw playgroud
+        SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+        SDL_RenderClear(gRenderer);
+        
+        sceneSecondDraw.drawLine(gRenderer, 0, WINDOW_HEIGHT / 3, WINDOW_WIDTH - 100, WINDOW_HEIGHT / 3);
+        sceneSecondDraw.drawLine(gRenderer, 0, WINDOW_HEIGHT / 3 * 2 , WINDOW_WIDTH - 100, WINDOW_HEIGHT / 3 * 2);
+        sceneSecondDraw.drawLine(gRenderer, (WINDOW_WIDTH - 100) / 3, 0, (WINDOW_WIDTH - 100) / 3, WINDOW_HEIGHT);
+        sceneSecondDraw.drawLine(gRenderer, (WINDOW_WIDTH - 100) / 3 * 2 , 0, (WINDOW_WIDTH - 100) / 3 * 2 , WINDOW_HEIGHT);
+        
+        // player and computer choose
+        sceneSecondTexturePlayer.fontShow(gRenderer, 300, 30);
+        sceneSecondTextureComputer.fontShow(gRenderer, 300, 60);
+        
+        if ( playerLetter == circle )
+        {
+            // reuse scenes01 picture
+            sceneFirstTexture.imgClipAndShow(gRenderer, 360, 20, circle);
+            sceneFirstTexture.imgClipAndShow(gRenderer, 360, 50, diff);
+        }
+        else
+        {
+            // reuse scenes01 picture
+            sceneFirstTexture.imgClipAndShow(gRenderer, 360, 20, diff);
+            sceneFirstTexture.imgClipAndShow(gRenderer, 360, 50, circle);
+        }
+        
+        sceneSecondTextureRun.fontShow(gRenderer, 300, 100);
+        sceneSecondTextureWhoRun.fontShow(gRenderer, 315, 120);
+        
+        // drawBoard
+        drawBoard();
+        if ( ( go == "player" ) and ( !data.isWin(computerLetter, board) ))
+        {         
+            board[data.postionXY(LButton::pLButtonInstance()->mPostion.x, LButton::pLButtonInstance()->mPostion.y)] = playerLetter;
+            if ( board[data.postionXY(LButton::pLButtonInstance()->mPostion.x, LButton::pLButtonInstance()->mPostion.y)] == playerLetter 
+                 and LButton::pLButtonInstance()->mPostion.x != 0)
+            {
+                if ( data.isWin(playerLetter, board) )
+                {
+                    result = "player win";
+                    drawBoard();
+                    SDL_RenderPresent(gRenderer);
+                    SDL_Delay(1000);
+                    renderer03();
+                }
+                if ( data.boardFull(board) )
+                {       
+                    result = "tied";
+                    drawBoard();
+                    SDL_RenderPresent(gRenderer);
+                    SDL_Delay(1000);
+                    renderer03();
+                }
+                LButton::pLButtonInstance()->mPostion.x = 0;
+                LButton::pLButtonInstance()->mPostion.y = 0;
+                go = "computer";  
+            }
+
+        }
+        if ( ( go == "computer") and ( !data.isWin(playerLetter, board) ) )
+        {
+            board[data.computerRun(board, playerLetter, computerLetter)] = computerLetter;
+            if ( data.isWin(computerLetter, board) )
+            {
+                result = "computer win";
+                drawBoard();
+                SDL_RenderPresent(gRenderer);
+                SDL_Delay(1000);
+                renderer03();
+            }
+            if ( data.boardFull(board) )
+            {       
+                result = "tied";
+                drawBoard();
+                SDL_RenderPresent(gRenderer);
+                SDL_Delay(1000);
+                renderer03();
+            }
+            go = "player"; 
+        }
+
+        SDL_RenderPresent(gRenderer);
     }
     else
     {
-        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 20, diff);
-        sceneFirstTexture.imgClipAndShow(gRenderer, 360, 50, circle);
+        renderer03();
     }
-    
-    sceneSecondTextureRun.fontShow(gRenderer, 300, 100);
-    sceneSecondTextureWhoRun.fontShow(gRenderer, 315, 120);
-    
-    if ( go == "player")
+
+}
+
+void MainGame::renderer03()
+{
+
+    // draw playground
+    SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
+    SDL_RenderClear(gRenderer);
+
+    // who win or tied
+    if ( sceneThirdTextureWhoWin.loadFont(ttfPath.c_str(), 18, result, gRenderer) )
     {
-        // drawBoard
-        drawBoard();
-        
+        sceneThirdTextureWhoWin.fontShow(gRenderer, 50, 50);
     }
-    
-    
+
+    // font play again
+    sceneThirdTexturePlayAgain.fontShow(gRenderer, 30, 70);
+
+
+    sceneFirstDraw.drawRec(gRenderer, 70, 100, 48, 48);
+    sceneFirstDraw.drawRec(gRenderer, 160, 100, 48, 48);
+
+    // Y or N
+    sceneThirdTextureX.fontShow(gRenderer, 87, 117);
+    sceneThirdTextureY.fontShow(gRenderer, 177, 117);
+
+    if ( ( LButton::pLButtonInstance()->getLButtonDownX() > 70 and LButton::pLButtonInstance()->getLButtonDownX() < 118 ) and
+            ( LButton::pLButtonInstance()->getLButtonDownY() > 100 and LButton::pLButtonInstance()->getLButtonDownY() < 148 ) )
+    {
+        LButton::pLButtonInstance()->mPostion.x = 0;
+        LButton::pLButtonInstance()->mPostion.y = 0;
+        initData();
+        // renderer01();
+    }
+    if ( ( LButton::pLButtonInstance()->getLButtonDownX() > 160 and LButton::pLButtonInstance()->getLButtonDownY() < 208 ) and
+            ( LButton::pLButtonInstance()->getLButtonDownY() > 100 and LButton::pLButtonInstance()->getLButtonDownY() < 148 ) )
+    {
+        isGameRunning = false;
+    }
+
     SDL_RenderPresent(gRenderer);
 }
+
 
 void MainGame::update()
 {
@@ -184,11 +291,11 @@ void MainGame::update()
 
 void MainGame::drawBoard()
 {
-    for (int i = 1; i < 2; ++i)
+    for (int i = 1; i < 10; ++i)
     {   
-        std::cout << std::to_string(i) << std::endl;
-        sceneFirstTexture.imgClipAndShow(gRenderer, setting["initCoordinate"][std::to_string(i)]["x"], setting["initCoordinate"][std::to_string(i)]["y"], playerLetter);          
+        sceneFirstTexture.imgClipAndShow(gRenderer, setting["initCoordinate"][std::to_string(i)]["x"], setting["initCoordinate"][std::to_string(i)]["y"], board[i]);          
     }
+    
 }
 
 

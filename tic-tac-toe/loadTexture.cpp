@@ -82,11 +82,11 @@ void LoadTexture::imgClipAndShow(SDL_Renderer* gRenderer, int positionX, int pos
     
     s2 = s1;
     // circle or text is 1, cha is 2
-    if ( flag == 1 ) { s2.x = positionX; s2.y = positionY;}
-    if ( flag == 2 ) { s1.x = imgWidth / 2; s2.x = positionX; s2.y = positionY;}
+    if ( flag == 1 ) { s2.x = positionX; s2.y = positionY; SDL_RenderCopy(gRenderer, gTexture_img, &s1, &s2);}
+    if ( flag == 2 ) { s1.x = imgWidth / 2; s2.x = positionX; s2.y = positionY; SDL_RenderCopy(gRenderer, gTexture_img, &s1, &s2);}
 
     // SDL_RenderCopyEx(gRenderer, gTexture_img, &s1, &s2, 0, nullptr, SDL_FLIP_NONE);
-    SDL_RenderCopy(gRenderer, gTexture_img, &s1, &s2);
+    
     // printf("%s \n", SDL_GetError());
 }
 

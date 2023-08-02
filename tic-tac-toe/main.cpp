@@ -32,13 +32,19 @@ int main()
             mainGame->renderer02();
         }
 
+        // for (int i = 0; i< mainGame->board.size(); ++i)
+        // {
+        //     std::cout << mainGame->board[i] ;
+        // }
+        // std::cout << "\n";
+
         // control frame
         frameTime = SDL_GetTicks() - frameStart;
         if ( frameTime < DELAY_TIME )
         {
             SDL_Delay( (int)(DELAY_TIME - frameTime) );
         }
-
     }
+
     delete mainGame;
 }

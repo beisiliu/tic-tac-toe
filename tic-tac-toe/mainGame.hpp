@@ -29,11 +29,14 @@ public:
     int computerLetter;
     std::string go;
     json setting;
+    std::array<int, 10> board;
     
+    void initData();
     bool gameInit(const char *title, int x, int y, int w, int h, Uint32 flags);
     void handleEvent();
     void renderer01();
     void renderer02();
+    void renderer03();
     void update();
     void close();
     
@@ -44,6 +47,10 @@ public:
 private:
     int WINDOW_WIDTH;
     int WINDOW_HEIGHT;
+
+    std::string imgPath;
+    std::string ttfPath;
+    std::string result;
     
     const int circle = 1;
     const int diff = 2;
@@ -61,8 +68,12 @@ private:
     LoadTexture sceneSecondTextureRun;
     LoadTexture sceneSecondTextureWhoRun;
 
-    std::array<int, 10> board;
-    std::pair<int, int> postionXY;
+    LoadTexture sceneThirdTextureY;
+    LoadTexture sceneThirdTextureX;
+    LoadTexture sceneThirdTexturePlayAgain;
+    LoadTexture sceneThirdTextureWhoWin;
+
+    Data data;
 };
 
 #endif /* mainGame_hpp */
