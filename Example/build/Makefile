@@ -129,29 +129,29 @@ example/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/build
 .PHONY : example/fast
 
-example.o: example.cpp.o
-.PHONY : example.o
+example02.o: example02.cpp.o
+.PHONY : example02.o
 
 # target to build an object file
-example.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/example.cpp.o
-.PHONY : example.cpp.o
+example02.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/example02.cpp.o
+.PHONY : example02.cpp.o
 
-example.i: example.cpp.i
-.PHONY : example.i
+example02.i: example02.cpp.i
+.PHONY : example02.i
 
 # target to preprocess a source file
-example.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/example.cpp.i
-.PHONY : example.cpp.i
+example02.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/example02.cpp.i
+.PHONY : example02.cpp.i
 
-example.s: example.cpp.s
-.PHONY : example.s
+example02.s: example02.cpp.s
+.PHONY : example02.s
 
 # target to generate assembly for a file
-example.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/example.cpp.s
-.PHONY : example.cpp.s
+example02.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/example.dir/build.make CMakeFiles/example.dir/example02.cpp.s
+.PHONY : example02.cpp.s
 
 # Help Target
 help:
@@ -162,9 +162,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... example"
-	@echo "... example.o"
-	@echo "... example.i"
-	@echo "... example.s"
+	@echo "... example02.o"
+	@echo "... example02.i"
+	@echo "... example02.s"
 .PHONY : help
 
 

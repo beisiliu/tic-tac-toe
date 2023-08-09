@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.21)
 
 # 设置工程名变量
 set(projectName example)
-SET(CMAKE_CXX_FLAGS "-std=c++20")
+set(CMAKE_CXX_FLAGS "-std=c++20")
 
 # 指定工程名
 project(${projectName})
@@ -15,7 +15,7 @@ find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
 # 编译
-add_executable(${projectName} example.cpp)
+add_executable(${projectName} example02.cpp)
 
 # 连接库
 target_link_libraries(${projectName} PRIVATE SDL2::SDL2)
