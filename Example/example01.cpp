@@ -1,71 +1,58 @@
-// Using SDL and standard IO
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-// Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_WIDTH = 300;
+const int SCREEN_HEIGHT = 300;
+
+SDL_Window* gWindow;
+
+bool init();
+
+void close();
+
+bool init(const char *title, int x, int y, int w, int h, Uint32 flags)
+{
+    if ( SDL_Init(SDL_INIT_EVERYTHING) != 0 )
+    {
+        printf("SDL Init Error: %s \n", SDL_GetError());
+        return false;
+    }
+
+    gWindow = SDL_CreateWindow(title, x, y, w, h, flags);
+    if (gWindow == nullptr)
+    {
+        printf("SDL Create Window Error: %s \n", SDL_GetError());
+        return false;
+    }
+
+    return true;
+
+}
+
+void close()
+{
+    SDL_DestroyWindow(gWindow);
+    SDL_Quit();
+}
 
 int main(int argc, char* argv[])
 {
-    // the window will be rendering to
-    SDL_Window* window = nullptr;
-
-    // the surface contained by the window
-    SDL_Surface* screenSurface = nullptr;
-
-    // Initialize SDL
-    if ( SDL_Init(SDL_INIT_EVERYTHING) != 0)
+    if ( init("example01", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_HEIGHT, SCREEN_WIDTH, SDL_WINDOW_SHOWN) )
     {
-        printf( "SDL could not initialize ! SDL Error : %s \n", SDL_GetError() );
-    }
-    else
-    {
-        // Create Window
-        window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-        SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-        if ( window == nullptr )
+        SDL_Event e;
+        bool isRunning = true;
+        while(isRunning)
         {
-            printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
-        }
-        else
-        {
-            // get window surface
-            screenSurface = SDL_GetWindowSurface( window );
-            if ( screenSurface == nullptr )
+            while(SDL_PollEvent(&e))
             {
-                printf( "screenSurface could not be created! SDL_Error: %s\n", SDL_GetError() );
-            }
-            else
-            {
-                //fill the surface white
-                SDL_FillRect(screenSurface, nullptr, SDL_MapRGB ( screenSurface->format, 0xFF, 0xFF, 0xFF ) );
-
-                // update the surface
-                SDL_UpdateWindowSurface( window );
-
-                // Hack to get window to stay up
-                SDL_Event e; 
-                bool quit = false; 
-                while( quit == false )
-                { 
-                    while( SDL_PollEvent( &e ) )
-                    { 
-                        if( e.type == SDL_QUIT ) quit = true;
-                    } 
-                
+                if(e.type == SDL_QUIT)
+                {
+                    isRunning = false;
                 }
-
+                
             }
         }
-
     }
 
-    // Destroy the window
-    SDL_DestroyWindow( window );
-    
-    // Quit SDL subsystems
-    SDL_Quit();
-
-    return 0;
+    close();
 }
