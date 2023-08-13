@@ -1,5 +1,5 @@
-CMakeFiles/example.dir/example02.cpp.o: \
-  /Users/lewis/Documents/tic-tac-toe/Example/example02.cpp \
+CMakeFiles/example.dir/example00.cpp.o: \
+  /Users/lewis/Documents/tic-tac-toe/Example/example00.cpp \
   /Library/Frameworks/SDL2.framework/Headers/SDL.h \
   /Library/Frameworks/SDL2.framework/Headers/SDL_main.h \
   /Library/Frameworks/SDL2.framework/Headers/SDL_stdinc.h \
@@ -263,4 +263,96 @@ CMakeFiles/example.dir/example02.cpp.o: \
   /Library/Frameworks/SDL2.framework/Headers/SDL_timer.h \
   /Library/Frameworks/SDL2.framework/Headers/SDL_version.h \
   /Library/Frameworks/SDL2.framework/Headers/SDL_locale.h \
-  /Library/Frameworks/SDL2.framework/Headers/SDL_misc.h
+  /Library/Frameworks/SDL2.framework/Headers/SDL_misc.h \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/iostream \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ios \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/iosfwd \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/wchar.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/wchar.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/sys/_types/_mbstate_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/time.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/sys/_types/_timespec.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/_wctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/__wctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/_types/_wctype_t.h \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__locale \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/string \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/string_view \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__string \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/algorithm \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/initializer_list \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstring \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/utility \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__tuple \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstdint \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__debug \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/memory \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/typeinfo \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/exception \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstdlib \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/new \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/iterator \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__functional_base \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/tuple \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/stdexcept \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/atomic \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cassert \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/assert.h \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/functional \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/bit \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cstdio \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cwchar \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cwctype \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cctype \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/wctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/wctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/_types/_wctrans_t.h \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/mutex \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__mutex_base \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/chrono \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ctime \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ratio \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/climits \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/limits.h \
+  /Library/Developer/CommandLineTools/usr/lib/clang/12.0.0/include/limits.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/limits.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/machine/limits.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/i386/limits.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/i386/_limits.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/sys/syslimits.h \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/system_error \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__errc \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/cerrno \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/errno.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/errno.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/sys/errno.h \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__threading_support \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/pthread/sched.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/pthread/pthread_impl.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/pthread/qos.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/sys/qos.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/sys/_types/_mach_port_t.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/sched.h \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/locale.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/locale.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/_locale.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/xlocale.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/_xlocale.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/xlocale/_ctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/xlocale/__wctype.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/xlocale/_inttypes.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/xlocale/_stdio.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/xlocale/_stdlib.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/xlocale/_string.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/xlocale/_time.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/xlocale/_wchar.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/xlocale/_wctype.h \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/streambuf \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/istream \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/ostream \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/locale \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/nl_types.h \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/_types/_nl_item.h \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__bsd_locale_defaults.h \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/bitset \
+  /Library/Developer/CommandLineTools/usr/bin/../include/c++/v1/__bit_reference
