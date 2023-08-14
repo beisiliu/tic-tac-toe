@@ -71,11 +71,11 @@ int main(int argc, char* argv[])
 {
     if ( init("example03", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_HEIGHT, SCREEN_WIDTH, SDL_WINDOW_SHOWN) )
     {
-        gKeySurface[DEFAULT_SURFACE] = loadImg("aaaa.png");
-        gKeySurface[UP_SURFACE] = loadImg("aaaa.png");
-        gKeySurface[DOWN_SURFACE] = loadImg("aaaa.png");
-        gKeySurface[RIGHT_SURFACE] = loadImg("aaaa.png");
-        gKeySurface[LEFT_SURFACE] = loadImg("aaaa.png");
+        gKeySurface[DEFAULT_SURFACE] = loadImg("img/default.bmp");
+        gKeySurface[UP_SURFACE] = loadImg("img/up.bmp");
+        gKeySurface[DOWN_SURFACE] = loadImg("img/down.bmp");
+        gKeySurface[RIGHT_SURFACE] = loadImg("img/right.bmp");
+        gKeySurface[LEFT_SURFACE] = loadImg("img/left.bmp");
       
         SDL_Event e;
         bool isRunning = true;
