@@ -1,3 +1,5 @@
+// load image
+
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
@@ -59,10 +61,10 @@ int main(int argc, char* argv[])
 {
     if ( init("example02", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_HEIGHT, SCREEN_WIDTH, SDL_WINDOW_SHOWN) )
     {
-        if ( loadImg("helloWorld.bmp") )
+        if ( !loadImg("helloWorld.bmp") )
         {        
-            SDL_BlitSurface(gHelloWorld, nullptr, gSurface, nullptr);
-            SDL_UpdateWindowSurface( gWindow );
+            printf("Load Image Error : ");
+            return 1;
         }
 
         SDL_Event e;
@@ -77,6 +79,9 @@ int main(int argc, char* argv[])
                 }
                 
             }
+
+            SDL_BlitSurface(gHelloWorld, nullptr, gSurface, nullptr);
+            SDL_UpdateWindowSurface( gWindow );
         }
     }
     close();
