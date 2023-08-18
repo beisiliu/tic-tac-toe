@@ -45,8 +45,7 @@ bool loadImg(const char* imgPath)
 {
     // 通过一个临时的tmpSurface读取图片
     // SDL_Surface* tmpSurface = IMG_Load(imgPath);
-    IM
-    // SDL_Surface* tmpSurface = SDL_LoadBMP(imgPath);
+    SDL_Surface* tmpSurface = SDL_LoadBMP(imgPath);
     if (tmpSurface == nullptr )
     {
         printf("load img error, PATH: %s, Error: %s ", imgPath, SDL_GetError());

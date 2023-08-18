@@ -9,7 +9,8 @@ const int SCREEN_HEIGHT = 600;
 
 SDL_Window* gWindow = nullptr;
 SDL_Surface* gSurface = nullptr;
-SDL
+SDL_Texture* gTexture = nullptr;
+SDL_Renderer* gRenderer = nullptr;
 //SDL_Surface* gHelloWorld300 = nullptr;
 
 bool init(const char *title, int x, int y, int w, int h, Uint32 flags);
@@ -38,6 +39,12 @@ bool init(const char *title, int x, int y, int w, int h, Uint32 flags)
         return false;
     }
 
+    gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+    if ( gRenderer == nullptr )
+    {
+        printf("SDL CreateRenderer Error: %s \n", SDL_GetError());
+        return false;
+    }
     return true;
 
 }
