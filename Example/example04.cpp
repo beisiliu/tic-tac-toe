@@ -3,12 +3,12 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 
-const int SCREEN_WIDTH = 300;
-const int SCREEN_HEIGHT = 300;
+const int SCREEN_WIDTH = 600;
+const int SCREEN_HEIGHT = 600;
 
-SDL_Window* gWindow;
-SDL_Surface* gSurface;
-SDL_Surface* gHelloWorld;
+SDL_Window* gWindow = nullptr;
+SDL_Surface* gSurface = nullptr;
+SDL_Surface* gHelloWorld300 = nullptr;
 
 bool init(const char *title, int x, int y, int w, int h, Uint32 flags);
 bool loadImg(const char* imgPath);
@@ -42,12 +42,24 @@ bool init(const char *title, int x, int y, int w, int h, Uint32 flags)
 
 bool loadImg(const char* imgPath)
 {
-    gHelloWorld = SDL_LoadBMP(imgPath);
-    if (gHelloWorld == nullptr )
+    // 通过一个临时的tmpSurface读取图片
+    SDL_Surface* tmpSurface = SDL_LoadBMP(imgPath);
+    if (tmpSurface == nullptr )
     {
         printf("load img error, PATH: %s, Error: %s ", imgPath, SDL_GetError());
         return false;
     }
+
+    // 将tmpSurface的图位转换成和显示相同的图位
+    gHelloWorld300 = SDL_ConvertSurface(tmpSurface, gSurface->format, 0);
+    if (gHelloWorld300 == nullptr)
+    {
+        printf("SDL_ConvertSurface Error: %s ", SDL_GetError());
+        return false;
+    }
+
+    // 释放临时的tmpSurface
+    SDL_FreeSurface(tmpSurface);
     return true;
 }
 
@@ -59,7 +71,7 @@ void close()
 
 int main(int argc, char* argv[])
 {
-    if ( init("example02", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_HEIGHT, SCREEN_WIDTH, SDL_WINDOW_SHOWN) )
+    if ( init("example04", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_HEIGHT, SCREEN_WIDTH, SDL_WINDOW_SHOWN) )
     {
         if ( !loadImg("img/helloWorld.bmp") )
         {        
@@ -80,7 +92,15 @@ int main(int argc, char* argv[])
                 
             }
 
-            SDL_BlitSurface(gHelloWorld, nullptr, gSurface, nullptr);
+            SDL_Rect destRect;
+            destRect.x = 100;
+            destRect.y = 100;
+            destRect.h = SCREEN_HEIGHT/10;
+            destRect.w = SCREEN_WIDTH/10;
+
+            // SDL_BlitSurface(gHelloWorld300, nullptr, gSurface, &destRect);
+            // SDL_BlitScaled(newSuf, nullptr, gSurface, &destRect);
+            SDL_BlitScaled(gHelloWorld300, nullptr, gSurface, &destRect);
             SDL_UpdateWindowSurface( gWindow );
         }
     }

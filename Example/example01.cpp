@@ -6,7 +6,7 @@ const int SCREEN_HEIGHT = 300;
 
 SDL_Window* gWindow;
 
-bool init();
+bool init(const char *title, int x, int y, int w, int h, Uint32 flags);
 
 void close();
 
