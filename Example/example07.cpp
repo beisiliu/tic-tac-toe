@@ -110,8 +110,26 @@ int main(int argc, char* argv[])
             destRect.h = SCREEN_HEIGHT/2;
             destRect.w = SCREEN_WIDTH/2;
 
+            // 设置背景色
+            SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
             SDL_RenderClear(gRenderer);
-            SDL_RenderCopy(gRenderer, gTexture, nullptr, &destRect);
+            // SDL_RenderCopy(gRenderer, gTexture, nullptr, &destRect);
+
+            // 填充色矩形
+            // SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+            // SDL_RenderFillRect( gRenderer, &destRect );
+
+            // 无填充色矩形
+            // SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+            // SDL_RenderDrawRect( gRenderer, &destRect );
+
+            // 划线
+            // SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+            // SDL_RenderDrawLine( gRenderer, 100, 100, 200, 200);
+
+            // 画点
+            SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+
             SDL_RenderPresent(gRenderer);
         }
     }
