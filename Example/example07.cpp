@@ -116,19 +116,23 @@ int main(int argc, char* argv[])
             // SDL_RenderCopy(gRenderer, gTexture, nullptr, &destRect);
 
             // 填充色矩形
-            // SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
-            // SDL_RenderFillRect( gRenderer, &destRect );
+            SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+            SDL_RenderFillRect( gRenderer, &destRect );
 
             // 无填充色矩形
-            // SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
-            // SDL_RenderDrawRect( gRenderer, &destRect );
+            SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+            SDL_RenderDrawRect( gRenderer, &destRect );
 
             // 划线
-            // SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
-            // SDL_RenderDrawLine( gRenderer, 100, 100, 200, 200);
+            SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+            SDL_RenderDrawLine( gRenderer, 100, 100, 200, 200);
 
             // 画点
             SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 255);
+            for(int x = 100; x < 300; x += 5)
+            {
+                SDL_RenderDrawPoint(gRenderer, x, 100);
+            }
 
             SDL_RenderPresent(gRenderer);
         }
