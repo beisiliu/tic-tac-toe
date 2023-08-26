@@ -1,6 +1,6 @@
 import os
 
-os.chdir("./build-release")
+os.chdir("./build")
 os.system("cmake ..")
 os.system("make")
 os.system("./tic-tac-toe ")

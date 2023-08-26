@@ -14,15 +14,19 @@ SDL_Renderer* gRenderer = nullptr;
 
 TTF_Font* gFont = nullptr;
 SDL_Color textColor = { 0, 0 , 255 };
-SDL_Surface* textSurface = nullptr;
 SDL_Texture* textTexture = nullptr;
+
+SDL_Rect fontRect;
 
 int imgWidth = 0;
 int imgHeight = 0;
+int fontWidth = 0;
+int fontHeight = 0;
 
 bool init(const char *title, int x, int y, int w, int h, Uint32 flags);
 bool loadImg(const char* imgPath);
 bool loadTTF(const char* ttfPath, int fontSize, const char* text);
+void setRect();
 void close();
 
 bool init(const char *title, int x, int y, int w, int h, Uint32 flags)
@@ -44,6 +48,12 @@ bool init(const char *title, int x, int y, int w, int h, Uint32 flags)
     if ( gRenderer == nullptr )
     {
         printf("SDL CreateRenderer Error: %s \n", SDL_GetError());
+        return false;
+    }
+
+    if (TTF_Init() == -1)
+    {
+        printf("TTF Init error: %s \n", TTF_GetError());
         return false;
     }
     return true;
@@ -85,11 +95,22 @@ bool loadTTF(const char* ttfPath, int fontSize, const char* text)
     }
 
     // gFont 都读到了，一般不会nullptr，当然加个if判断也可以
-    textSurface = TTF_RenderText_Solid(gFont, text, textColor);
-    textTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
-    
-
+    // SDL_Surface* tmpSurface = TTF_RenderText_Solid(gFont, text, textColor);
+    // SDL_Surface* tmpSurface = TTF_RenderUTF8_Solid(gFont, text, textColor);
+    SDL_Surface* tmpSurface = TTF_RenderUTF8_Solid_Wrapped(gFont, text, textColor, 64);
+    fontWidth = tmpSurface->w;
+    fontHeight = tmpSurface->h;
+    printf("%d \n", fontWidth);
+    printf("%d \n", fontHeight);
+    textTexture = SDL_CreateTextureFromSurface(gRenderer, tmpSurface);
+    SDL_FreeSurface(tmpSurface);
     return true;
+}
+
+void setRect()
+{
+   fontRect.w = fontWidth; fontRect.h = fontHeight;
+    fontRect.x = 110; fontRect.y = 110;
 }
 
 void close()
@@ -99,8 +120,6 @@ void close()
     SDL_DestroyRenderer(gRenderer);
 
     TTF_CloseFont(gFont);
-    SDL_FreeSurface(textSurface);
-
     SDL_Quit();
 }
 
@@ -115,11 +134,12 @@ int main(int argc, char* argv[])
             return 1;
         }
         // load ttf
-        if ( !loadTTF("ttf/lazy.ttf", 16, "Hello World") )
+        if ( !loadTTF("ttf/font01.ttf", 16, "啊啊啊啊啊啊啊啊") )
         {
             printf("Load ttf error : ");
             return 2;
         }
+        setRect();
         SDL_Event e;
         bool isRunning = true;
         while(isRunning)
@@ -137,7 +157,7 @@ int main(int argc, char* argv[])
             SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
             SDL_RenderClear(gRenderer);
 
-            SDL_RenderCopyEx(gRenderer, textTexture, nullptr, nullptr, 0, nullptr, SDL_FLIP_NONE);
+            SDL_RenderCopy(gRenderer, textTexture, nullptr, &fontRect);
             SDL_RenderPresent(gRenderer);
         }
     }

@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.21)
 # 设置工程名变量
 set(projectName tic-tac-toe)
 set(CMAKE_CXX_FLAGS "-std=c++2a")
-set(CMAKE_BUILD_TYPE "Release")
+# set(CMAKE_BUILD_TYPE "Release")
 
 # 指定工程名
 project(${projectName})
