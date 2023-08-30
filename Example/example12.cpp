@@ -30,6 +30,7 @@ enum MouseStatus
 
 SDL_Rect mouseRect[MOUSE_TOTAL];
 SDL_Rect mouseDstRect;
+int mouseStatus = 0;
 
 int imgWidth = 0;
 int imgHeight = 0;
@@ -124,7 +125,7 @@ void setRect()
 //    fontRect.x = 110; fontRect.y = 110;
     for (int i = 0; i < MOUSE_TOTAL; i++)
     {
-        mouseRect[i].h = imgHeight; mouseRect[i].w = imgWidth;
+        mouseRect[i].h = imgHeight / 4; mouseRect[i].w = imgWidth;
         mouseRect[i].x = 0;
     }
     mouseRect[MOUSE_OUT].y = 0;
@@ -175,17 +176,11 @@ int main(int argc, char* argv[])
                 }
                 if(e.type == SDL_MOUSEBUTTONDOWN)
                 {
-                    SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
-                    SDL_RenderClear(gRenderer);
-                    SDL_RenderCopy(gRenderer, gTexture, &mouseRect[MOUSE_DOWN], &mouseDstRect);
-                    SDL_RenderPresent(gRenderer);
+                    mouseStatus = MOUSE_DOWN;
                 }
                 if(e.type == SDL_MOUSEBUTTONUP)
                 {
-                    SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
-                    SDL_RenderClear(gRenderer);
-                    SDL_RenderCopy(gRenderer, gTexture, &mouseRect[MOUSE_UP], &mouseDstRect);
-                    SDL_RenderPresent(gRenderer);
+                    mouseStatus = MOUSE_UP;
                 }
                 
             }
@@ -193,8 +188,8 @@ int main(int argc, char* argv[])
             // 设置背景色
             SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
             SDL_RenderClear(gRenderer);
-            //SDL_RenderCopy(gRenderer, gTexture, &mouseRect[MOUSE_UP], &mouseDstRect);
-            SDL_RenderCopy(gRenderer, textTexture, nullptr, &fontRect);
+            SDL_RenderCopy(gRenderer, gTexture, &mouseRect[mouseStatus], &mouseDstRect);
+            //SDL_RenderCopy(gRenderer, textTexture, nullptr, &fontRect);
             SDL_RenderPresent(gRenderer);
         }
     }
