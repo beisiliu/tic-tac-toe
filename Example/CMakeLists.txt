@@ -15,7 +15,7 @@ find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 
 # 编译
-add_executable(${projectName} example11.cpp)
+add_executable(${projectName} example12.cpp)
 
 
 # 连接库
