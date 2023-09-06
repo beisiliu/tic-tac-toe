@@ -1,5 +1,5 @@
-CMakeFiles/example.dir/example12.cpp.o: \
-  /Users/lewis/Documents/GitHub/tic-tac-toe/Example/example12.cpp \
+CMakeFiles/example.dir/example03.cpp.o: \
+  /Users/lewis/Documents/GitHub/tic-tac-toe/Example/example03.cpp \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SDL2.framework/Headers/SDL.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SDL2.framework/Headers/SDL_main.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SDL2.framework/Headers/SDL_stdinc.h \
@@ -266,6 +266,4 @@ CMakeFiles/example.dir/example12.cpp.o: \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SDL2.framework/Headers/SDL_timer.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SDL2.framework/Headers/SDL_version.h \
   /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SDL2.framework/Headers/SDL_locale.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SDL2.framework/Headers/SDL_misc.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SDL2_image.framework/Headers/SDL_image.h \
-  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h
+  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SDL2.framework/Headers/SDL_misc.h

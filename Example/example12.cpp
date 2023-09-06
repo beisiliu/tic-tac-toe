@@ -111,8 +111,6 @@ bool loadTTF(const char* ttfPath, int fontSize, const char* text)
     SDL_Surface* tmpSurface = TTF_RenderUTF8_Solid_Wrapped(gFont, text, textColor, 64);
     fontWidth = tmpSurface->w;
     fontHeight = tmpSurface->h;
-    printf("%d \n", fontWidth);
-    printf("%d \n", fontHeight);
     textTexture = SDL_CreateTextureFromSurface(gRenderer, tmpSurface);
 
     SDL_FreeSurface(tmpSurface);
@@ -174,15 +172,28 @@ int main(int argc, char* argv[])
                 {
                     isRunning = false;
                 }
-                if(e.type == SDL_MOUSEBUTTONDOWN)
+                if (e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP || e.type == SDL_MOUSEMOTION)
                 {
-                    mouseStatus = MOUSE_DOWN;
-                }
-                if(e.type == SDL_MOUSEBUTTONUP)
-                {
-                    mouseStatus = MOUSE_UP;
-                }
-                
+                    int x, y;
+                    SDL_GetMouseState(&x, &y);
+                    // printf("%d, %d \n", x, y);
+                    if(x < SCREEN_WIDTH and y < SCREEN_HEIGHT)
+                    {
+                        mouseStatus = MOUSE_IN;
+                    }
+                    if(x >= SCREEN_WIDTH - 1 or y >= SCREEN_HEIGHT - 1 or x <= 1 or y <= 1)
+                    {
+                        mouseStatus = MOUSE_OUT;
+                    }
+                    if(e.type == SDL_MOUSEBUTTONDOWN)
+                    {
+                        mouseStatus = MOUSE_DOWN;
+                    }
+                    if(e.type == SDL_MOUSEBUTTONUP)
+                    {
+                        mouseStatus = MOUSE_UP;
+                    }
+                }                
             }
 
             // 设置背景色
