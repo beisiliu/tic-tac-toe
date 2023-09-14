@@ -220,6 +220,15 @@ SDL2_mixer_DIR:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.
 SDL2_ttf_DIR:PATH=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/SDL2_ttf.framework/Resources/CMake
 
 //Value Computed by CMake
+example16_BINARY_DIR:STATIC=/Users/lewis/Documents/GitHub/tic-tac-toe/Example/build
+
+//Value Computed by CMake
+example16_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+example16_SOURCE_DIR:STATIC=/Users/lewis/Documents/GitHub/tic-tac-toe/Example
+
+//Value Computed by CMake
 example_BINARY_DIR:STATIC=/Users/lewis/Documents/GitHub/tic-tac-toe/Example/build
 
 //Value Computed by CMake

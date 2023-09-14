@@ -122,6 +122,7 @@ int main(int argc, char* argv[])
             }
 
             // 设置背景色
+            time();
             SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, 255);
             SDL_RenderClear(gRenderer);
             SDL_RenderCopy(gRenderer, gFontTexture, nullptr, &gFontRect);
