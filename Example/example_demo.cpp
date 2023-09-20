@@ -1,13 +1,11 @@
 /*This source code copyrighted by Lazy Foo' Productions 2004-2023
 and may not be redistributed without written permission.*/
 
-//Using SDL, SDL_image, SDL_ttf, standard IO, strings, and string streams
+//Using SDL, SDL_image, standard IO, and strings
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
-#include <SDL2_ttf/SDL_ttf.h>
 #include <stdio.h>
 #include <string>
-#include <sstream>
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -91,6 +89,37 @@ class LTimer
 		bool mStarted;
 };
 
+//The dot that will move around on the screen
+class Dot
+{
+    public:
+		//The dimensions of the dot
+		static const int DOT_WIDTH = 20;
+		static const int DOT_HEIGHT = 20;
+
+		//Maximum axis velocity of the dot
+		static const int DOT_VEL = 10;
+
+		//Initializes the variables
+		Dot();
+
+		//Takes key presses and adjusts the dot's velocity
+		void handleEvent( SDL_Event& e );
+
+		//Moves the dot
+		void move();
+
+		//Shows the dot on the screen
+		void render();
+
+    private:
+		//The X and Y offsets of the dot
+		int mPosX, mPosY;
+
+		//The velocity of the dot
+		int mVelX, mVelY;
+};
+
 //Starts up SDL and creates window
 bool init();
 
@@ -106,13 +135,8 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
-//Globally used font
-TTF_Font* gFont = NULL;
-
 //Scene textures
-LTexture gTimeTextTexture;
-LTexture gPausePromptTexture;
-LTexture gStartPromptTexture;
+LTexture gDotTexture;
 
 LTexture::LTexture()
 {
@@ -262,106 +286,73 @@ int LTexture::getHeight()
 	return mHeight;
 }
 
-LTimer::LTimer()
-{
-    //Initialize the variables
-    mStartTicks = 0;
-    mPausedTicks = 0;
 
-    mPaused = false;
-    mStarted = false;
+Dot::Dot()
+{
+    //Initialize the offsets
+    mPosX = 0;
+    mPosY = 0;
+
+    //Initialize the velocity
+    mVelX = 0;
+    mVelY = 0;
 }
 
-void LTimer::start()
+void Dot::handleEvent( SDL_Event& e )
 {
-    //Start the timer
-    mStarted = true;
-
-    //Unpause the timer
-    mPaused = false;
-
-    //Get the current clock time
-    mStartTicks = SDL_GetTicks();
-	mPausedTicks = 0;
-}
-
-void LTimer::stop()
-{
-    //Stop the timer
-    mStarted = false;
-
-    //Unpause the timer
-    mPaused = false;
-
-	//Clear tick variables
-	mStartTicks = 0;
-	mPausedTicks = 0;
-}
-
-void LTimer::pause()
-{
-    //If the timer is running and isn't already paused
-    if( mStarted && !mPaused )
+    //If a key was pressed
+	if( e.type == SDL_KEYDOWN && e.key.repeat == 0 )
     {
-        //Pause the timer
-        mPaused = true;
-
-        //Calculate the paused ticks
-        mPausedTicks = SDL_GetTicks() - mStartTicks;
-		mStartTicks = 0;
-    }
-}
-
-void LTimer::unpause()
-{
-    //If the timer is running and paused
-    if( mStarted && mPaused )
-    {
-        //Unpause the timer
-        mPaused = false;
-
-        //Reset the starting ticks
-        mStartTicks = SDL_GetTicks() - mPausedTicks;
-
-        //Reset the paused ticks
-        mPausedTicks = 0;
-    }
-}
-
-Uint32 LTimer::getTicks()
-{
-	//The actual timer time
-	Uint32 time = 0;
-
-    //If the timer is running
-    if( mStarted )
-    {
-        //If the timer is paused
-        if( mPaused )
+        //Adjust the velocity
+        switch( e.key.keysym.sym )
         {
-            //Return the number of ticks when the timer was paused
-            time = mPausedTicks;
-        }
-        else
-        {
-            //Return the current time minus the start time
-            time = SDL_GetTicks() - mStartTicks;
+            case SDLK_UP: mVelY -= DOT_VEL; break;
+            case SDLK_DOWN: mVelY += DOT_VEL; break;
+            case SDLK_LEFT: mVelX -= DOT_VEL; break;
+            case SDLK_RIGHT: mVelX += DOT_VEL; break;
         }
     }
-
-    return time;
+    //If a key was released
+    else if( e.type == SDL_KEYUP && e.key.repeat == 0 )
+    {
+        //Adjust the velocity
+        switch( e.key.keysym.sym )
+        {
+            case SDLK_UP: mVelY += DOT_VEL; break;
+            case SDLK_DOWN: mVelY -= DOT_VEL; break;
+            case SDLK_LEFT: mVelX += DOT_VEL; break;
+            case SDLK_RIGHT: mVelX -= DOT_VEL; break;
+        }
+    }
 }
 
-bool LTimer::isStarted()
+void Dot::move()
 {
-	//Timer is running and paused or unpaused
-    return mStarted;
+    //Move the dot left or right
+    mPosX += mVelX;
+
+    //If the dot went too far to the left or right
+    if( ( mPosX < 0 ) || ( mPosX + DOT_WIDTH > SCREEN_WIDTH ) )
+    {
+        //Move back
+        mPosX -= mVelX;
+    }
+
+    //Move the dot up or down
+    mPosY += mVelY;
+
+    //If the dot went too far up or down
+    if( ( mPosY < 0 ) || ( mPosY + DOT_HEIGHT > SCREEN_HEIGHT ) )
+    {
+        //Move back
+        mPosY -= mVelY;
+    }
 }
 
-bool LTimer::isPaused()
+void Dot::render()
 {
-	//Timer is running and paused
-    return mPaused && mStarted;
+    //Show the dot
+	gDotTexture.render( mPosX, mPosY );
 }
 
 bool init()
@@ -411,13 +402,6 @@ bool init()
 					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
 					success = false;
 				}
-
-				 //Initialize SDL_ttf
-				if( TTF_Init() == -1 )
-				{
-					printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
-					success = false;
-				}
 			}
 		}
 	}
@@ -430,31 +414,11 @@ bool loadMedia()
 	//Loading success flag
 	bool success = true;
 
-	//Open the font
-	gFont = TTF_OpenFont( "ttf/font01.ttf", 28 );
-	if( gFont == NULL )
+	//Load dot texture
+	if( !gDotTexture.loadFromFile( "img/ball.bmp" ) )
 	{
-		printf( "Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError() );
+		printf( "Failed to load dot texture!\n" );
 		success = false;
-	}
-	else
-	{
-		//Set text color as black
-		SDL_Color textColor = { 0, 0, 0, 255 };
-		
-		//Load stop prompt texture
-		if( !gStartPromptTexture.loadFromRenderedText( "Press S to Start or Stop the Timer", textColor ) )
-		{
-			printf( "Unable to render start/stop prompt texture!\n" );
-			success = false;
-		}
-		
-		//Load pause prompt texture
-		if( !gPausePromptTexture.loadFromRenderedText( "Press P to Pause or Unpause the Timer", textColor ) )
-		{
-			printf( "Unable to render pause/unpause prompt texture!\n" );
-			success = false;
-		}
 	}
 
 	return success;
@@ -463,13 +427,7 @@ bool loadMedia()
 void close()
 {
 	//Free loaded images
-	gTimeTextTexture.free();
-	gStartPromptTexture.free();
-	gPausePromptTexture.free();
-
-	//Free global font
-	TTF_CloseFont( gFont );
-	gFont = NULL;
+	gDotTexture.free();
 
 	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );
@@ -478,7 +436,6 @@ void close()
 	gRenderer = NULL;
 
 	//Quit SDL subsystems
-	TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }
@@ -505,14 +462,8 @@ int main( int argc, char* args[] )
 			//Event handler
 			SDL_Event e;
 
-			//Set text color as black
-			SDL_Color textColor = { 0, 0, 0, 255 };
-
-			//The application timer
-			LTimer timer;
-
-			//In memory text stream
-			std::stringstream timeText;
+			//The dot that will be moving around on the screen
+			Dot dot;
 
 			//While application is running
 			while( !quit )
@@ -525,54 +476,20 @@ int main( int argc, char* args[] )
 					{
 						quit = true;
 					}
-					//Reset start time on return keypress
-					else if( e.type == SDL_KEYDOWN )
-					{
-						//Start/stop
-						if( e.key.keysym.sym == SDLK_s )
-						{
-							if( timer.isStarted() )
-							{
-								timer.stop();
-							}
-							else
-							{
-								timer.start();
-							}
-						}
-						//Pause/unpause
-						else if( e.key.keysym.sym == SDLK_p )
-						{
-							if( timer.isPaused() )
-							{
-								timer.unpause();
-							}
-							else
-							{
-								timer.pause();
-							}
-						}
-					}
+
+					//Handle input for the dot
+					dot.handleEvent( e );
 				}
 
-				//Set text to be rendered
-				timeText.str( "" );
-				timeText << "Seconds since start time " << ( timer.getTicks() / 1000.f ) ; 
-
-				//Render text
-				if( !gTimeTextTexture.loadFromRenderedText( timeText.str().c_str(), textColor ) )
-				{
-					printf( "Unable to render time texture!\n" );
-				}
+				//Move the dot
+				dot.move();
 
 				//Clear screen
 				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				SDL_RenderClear( gRenderer );
 
-				//Render textures
-				gStartPromptTexture.render( ( SCREEN_WIDTH - gStartPromptTexture.getWidth() ) / 2, 0 );
-				gPausePromptTexture.render( ( SCREEN_WIDTH - gPausePromptTexture.getWidth() ) / 2, gStartPromptTexture.getHeight() );
-				gTimeTextTexture.render( ( SCREEN_WIDTH - gTimeTextTexture.getWidth() ) / 2, ( SCREEN_HEIGHT - gTimeTextTexture.getHeight() ) / 2 );
+				//Render objects
+				dot.render();
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );
