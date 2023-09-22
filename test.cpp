@@ -1,24 +1,35 @@
 #include <string>       // std::string
 #include <iostream>     // std::cout
-#include <sstream>      // std::stringstream, std::stringbuf
- 
 using namespace std;
- 
-int main()
-{	
-    string str= "hello world I am very happy!";                           
-    stringstream sstream;     //sstream<<
-    sstream << str;
- 
-    // cout << sstream << endl;
-    while (sstream)
-      {
-        string substr;
- 
-        sstream >> substr;
-        cout << substr << endl;    //也可vec.push_back(substr);
-      } 
 
+class A
+{
+public:
+  ~A(){printf("~A \n");}
+  void aaa();
+};
+void A::aaa(){}
+class B
+{
+public:
+  ~B(){printf("~B \n");}
+  void bbb(A a);
+};
+void B::bbb(A a)
+{
+  a.aaa();
+}
+
+int main()
+{
+  A a1;
+  B b1;
+  for (int i = 0; i < 10; i++)
+  {
+    b1.bbb(a1);
+  }
 
 }
+
+
 

@@ -72,7 +72,7 @@ SDL_Texture* loadImg(const char* imgPath)
 
 void ballMove(SDL_Event e)
 {
-    if (e.type == SDL_KEYDOWN )
+    if (e.type == SDL_KEYDOWN and e.key.repeat == 0)
     {
         if(e.key.keysym.sym == SDLK_RIGHT)
         {
@@ -102,7 +102,6 @@ void ballMove(SDL_Event e)
                 ballY += moveSpeed;
             }
         }
-        
     }
 }
 
