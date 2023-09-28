@@ -1,11 +1,16 @@
 /*This source code copyrighted by Lazy Foo' Productions 2004-2023
 and may not be redistributed without written permission.*/
 
-//Using SDL, SDL_image, standard IO, and strings
+//Using SDL, SDL_image, standard IO, vectors, and strings
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
+#include <SDL2_ttf/SDL_ttf.h>
 #include <stdio.h>
 #include <string>
+
+//The dimensions of the level
+const int LEVEL_WIDTH = 1280;
+const int LEVEL_HEIGHT = 960;
 
 //Screen dimension constants
 const int SCREEN_WIDTH = 640;
@@ -57,38 +62,6 @@ class LTexture
 		int mHeight;
 };
 
-//The application time based timer
-class LTimer
-{
-    public:
-		//Initializes variables
-		LTimer();
-
-		//The various clock actions
-		void start();
-		void stop();
-		void pause();
-		void unpause();
-
-		//Gets the timer's time
-		Uint32 getTicks();
-
-		//Checks the status of the timer
-		bool isStarted();
-		bool isPaused();
-
-    private:
-		//The clock time when the timer started
-		Uint32 mStartTicks;
-
-		//The ticks stored when the timer was paused
-		Uint32 mPausedTicks;
-
-		//The timer status
-		bool mPaused;
-		bool mStarted;
-};
-
 //The dot that will move around on the screen
 class Dot
 {
@@ -109,8 +82,12 @@ class Dot
 		//Moves the dot
 		void move();
 
-		//Shows the dot on the screen
-		void render();
+		//Shows the dot on the screen relative to the camera
+		void render( int camX, int camY );
+
+		//Position accessors
+		int getPosX();
+		int getPosY();
 
     private:
 		//The X and Y offsets of the dot
@@ -135,8 +112,11 @@ SDL_Window* gWindow = NULL;
 //The window renderer
 SDL_Renderer* gRenderer = NULL;
 
+TTF_Font* gFont = NULL;
+
 //Scene textures
 LTexture gDotTexture;
+LTexture gBGTexture;
 
 LTexture::LTexture()
 {
@@ -286,7 +266,6 @@ int LTexture::getHeight()
 	return mHeight;
 }
 
-
 Dot::Dot()
 {
     //Initialize the offsets
@@ -332,7 +311,7 @@ void Dot::move()
     mPosX += mVelX;
 
     //If the dot went too far to the left or right
-    if( ( mPosX < 0 ) || ( mPosX + DOT_WIDTH > SCREEN_WIDTH ) )
+    if( ( mPosX < 0 ) || ( mPosX + DOT_WIDTH > LEVEL_WIDTH ) )
     {
         //Move back
         mPosX -= mVelX;
@@ -342,17 +321,27 @@ void Dot::move()
     mPosY += mVelY;
 
     //If the dot went too far up or down
-    if( ( mPosY < 0 ) || ( mPosY + DOT_HEIGHT > SCREEN_HEIGHT ) )
+    if( ( mPosY < 0 ) || ( mPosY + DOT_HEIGHT > LEVEL_HEIGHT ) )
     {
         //Move back
         mPosY -= mVelY;
     }
 }
 
-void Dot::render()
+void Dot::render( int camX, int camY )
 {
-    //Show the dot
-	gDotTexture.render( mPosX, mPosY );
+    //Show the dot relative to the camera
+	gDotTexture.render( mPosX - camX, mPosY - camY );
+}
+
+int Dot::getPosX()
+{
+	return mPosX;
+}
+
+int Dot::getPosY()
+{
+	return mPosY;
 }
 
 bool init()
@@ -415,9 +404,16 @@ bool loadMedia()
 	bool success = true;
 
 	//Load dot texture
-	if( !gDotTexture.loadFromFile( "img/ball.bmp" ) )
+	if( !gDotTexture.loadFromFile( "img/dot.bmp" ) )
 	{
 		printf( "Failed to load dot texture!\n" );
+		success = false;
+	}
+
+	//Load background texture
+	if( !gBGTexture.loadFromFile( "img/bg.png" ) )
+	{
+		printf( "Failed to load background texture!\n" );
 		success = false;
 	}
 
@@ -428,6 +424,7 @@ void close()
 {
 	//Free loaded images
 	gDotTexture.free();
+	gBGTexture.free();
 
 	//Destroy window	
 	SDL_DestroyRenderer( gRenderer );
@@ -465,6 +462,9 @@ int main( int argc, char* args[] )
 			//The dot that will be moving around on the screen
 			Dot dot;
 
+			//The camera area
+			SDL_Rect camera = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
 			//While application is running
 			while( !quit )
 			{
@@ -484,12 +484,37 @@ int main( int argc, char* args[] )
 				//Move the dot
 				dot.move();
 
+				//Center the camera over the dot
+				camera.x = ( dot.getPosX() + Dot::DOT_WIDTH / 2 ) - SCREEN_WIDTH / 2;
+				camera.y = ( dot.getPosY() + Dot::DOT_HEIGHT / 2 ) - SCREEN_HEIGHT / 2;
+
+				//Keep the camera in bounds
+				if( camera.x < 0 )
+				{ 
+					camera.x = 0;
+				}
+				if( camera.y < 0 )
+				{
+					camera.y = 0;
+				}
+				if( camera.x > LEVEL_WIDTH - camera.w )
+				{
+					camera.x = LEVEL_WIDTH - camera.w;
+				}
+				if( camera.y > LEVEL_HEIGHT - camera.h )
+				{
+					camera.y = LEVEL_HEIGHT - camera.h;
+				}
+
 				//Clear screen
 				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				SDL_RenderClear( gRenderer );
 
+				//Render background
+				gBGTexture.render( 0, 0, &camera );
+
 				//Render objects
-				dot.render();
+				dot.render( camera.x, camera.y );
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );

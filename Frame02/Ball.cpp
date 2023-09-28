@@ -23,7 +23,7 @@ void Ball::ballSetting(int speed)
 
 void Ball::ballEvent(SDL_Event e)
 {
-    ballSetting(speed = 5);
+    ballSetting(speed = 10);
     if(e.type == SDL_KEYDOWN and e.key.repeat == 0)
     {
         switch (e.key.keysym.sym )
@@ -50,12 +50,13 @@ void Ball::ballEvent(SDL_Event e)
 void Ball::doMove(GTexture* ballTexture, int SCREEN_WIDTH, int SCREEN_HEIGHT)
 {
     postionX += speedX;
+    // 左右边界判断
     if(ballTexture->getImgWidth() + postionX > SCREEN_WIDTH or postionX < 0)
     {
         postionX -= speedX;
     }
-    printf("%d", speedX);
     postionY += speedY;
+    // 上下边界判断
     if(ballTexture->getImgHeight() + postionY > SCREEN_HEIGHT or postionY < 0)
     {
         postionY -= speedY;
