@@ -12,18 +12,20 @@ public:
 
     bool loadImg(SDL_Renderer* gRenderer, const char* imgPath);
     // dst move pic
-    void textureRenderDstMove(SDL_Renderer* gRenderer, int postionX, int postionY);
+    void textureRenderDstMove(SDL_Renderer* gRenderer, int postionX, int postionY, SDL_Rect *srcRect = nullptr);
     // static pic
     void setStaticDstRect(const int staticX, const int staticY);
-    SDL_Rect getDstRect();
     void textureRenderDstStatic(SDL_Renderer* gRenderer);
+
+    SDL_Rect getDstRect();
 
     // get IMG w and h
     int getImgWidth();
     int getImgHeight();
-
-private:
+    
     SDL_Texture *gTexture;
+private:
+
     int imgWidth;
     int imgHeight;
 

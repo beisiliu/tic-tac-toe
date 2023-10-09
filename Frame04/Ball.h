@@ -14,7 +14,8 @@ public:
     ~Ball();
     void ballSetting(int speed = 10);
     void ballEvent(SDL_Event e);
-    void doMove(GTexture* ballTexture, int SCREEN_WIDTH, int SCREEN_HEIGHT, SDL_Rect rect, SDL_Rect ballColliderRect);
+    // void doMove(GTexture* ballTexture, int SCREEN_WIDTH, int SCREEN_HEIGHT, SDL_Rect rect, SDL_Rect ballColliderRect);
+    void doMove(GTexture* ballTexture, int SCREEN_WIDTH, int SCREEN_HEIGHT, int &srcRectX, int &srcRectY);
     void ballRendererDstMove(SDL_Renderer* gRenderer, GTexture* ballTexture);
     void free();
 

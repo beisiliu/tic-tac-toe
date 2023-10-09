@@ -2,11 +2,8 @@
 
 Ball::Ball()
 {
-    postionX = 0, postionY = 0;
+    postionX = 150, postionY = 150;
     speedX = 0, speedY = 0;
-
-    // ballColliderRect.w = ballTexture->getImgWidth();
-    // ballColliderRect.h = ballTexture->getImgHeight();
     printf("ball");
 }
 
@@ -51,34 +48,57 @@ void Ball::ballEvent(SDL_Event e)
     }
 }
 
-
-void Ball::doMove(GTexture* ballTexture, int SCREEN_WIDTH, int SCREEN_HEIGHT, SDL_Rect rect, SDL_Rect ballColliderRect)
+// 注意要传递引用进去才会变
+void Ball::doMove(GTexture* ballTexture, int SCREEN_WIDTH, int SCREEN_HEIGHT, int &srcRectX, int &srcRectY)
 {
     postionX += speedX;
-    ballColliderRect.x = postionX;
     postionY += speedY;
-    ballColliderRect.y = postionY;
 
-    printf("c, %d, %d \n", ballColliderRect.x, ballColliderRect.y);
+    srcRectX = postionX;
+    srcRectY = postionY;
+
+    // printf("%d\n", srcRectX);
     // 左右边界判断
-    if( (ballTexture->getImgWidth() + postionX > SCREEN_WIDTH) or (postionX < 0) or (checkCollision->checkCollision(ballColliderRect, rect)))
+    if( (ballTexture->getImgWidth() + postionX > SCREEN_WIDTH) or (postionX < 0))
     {
         postionX -= speedX;
-        ballColliderRect.x = postionX;
-        printf(" a, (%d, %d)\n", ballColliderRect.x, ballColliderRect.y);
     }
-    // ballColliderRect的值，每次调用，都是从外面传递进来的，写在后面ballColliderRect.y在调用第一个if的时候，判断总是为0，所以要写在最前面。
-    // postionY += speedY;
-    // ballColliderRect.y = postionY;
-    printf("d, %d, %d \n", ballColliderRect.x, ballColliderRect.y);
+
     // 上下边界判断
-    if( (ballTexture->getImgHeight() + postionY > SCREEN_HEIGHT) or (postionY < 0) or (checkCollision->checkCollision(ballColliderRect, rect)))
+    if( (ballTexture->getImgHeight() + postionY > SCREEN_HEIGHT) or (postionY < 0))
     {
         postionY -= speedY;
-        ballColliderRect.y = postionY;
-        printf(" b, (%d, %d)\n", ballColliderRect.x, ballColliderRect.y);
     }
+
 }
+
+// void Ball::doMove(GTexture* ballTexture, int SCREEN_WIDTH, int SCREEN_HEIGHT, SDL_Rect rect, SDL_Rect ballColliderRect)
+// {
+//     postionX += speedX;
+//     ballColliderRect.x = postionX;
+//     postionY += speedY;
+//     ballColliderRect.y = postionY;
+
+//     printf("c, %d, %d \n", ballColliderRect.x, ballColliderRect.y);
+//     // 左右边界判断
+//     if( (ballTexture->getImgWidth() + postionX > SCREEN_WIDTH) or (postionX < 0) or (checkCollision->checkCollision(ballColliderRect, rect)))
+//     {
+//         postionX -= speedX;
+//         ballColliderRect.x = postionX;
+//         printf(" a, (%d, %d)\n", ballColliderRect.x, ballColliderRect.y);
+//     }
+//     // ballColliderRect的值，每次调用，都是从外面传递进来的，写在后面ballColliderRect.y在调用第一个if的时候，判断总是为0，所以要写在最前面。
+//     // postionY += speedY;
+//     // ballColliderRect.y = postionY;
+//     printf("d, %d, %d \n", ballColliderRect.x, ballColliderRect.y);
+//     // 上下边界判断
+//     if( (ballTexture->getImgHeight() + postionY > SCREEN_HEIGHT) or (postionY < 0) or (checkCollision->checkCollision(ballColliderRect, rect)))
+//     {
+//         postionY -= speedY;
+//         ballColliderRect.y = postionY;
+//         printf(" b, (%d, %d)\n", ballColliderRect.x, ballColliderRect.y);
+//     }
+// }
 
 void Ball::ballRendererDstMove(SDL_Renderer* gRenderer, GTexture* ballTexture)
 {

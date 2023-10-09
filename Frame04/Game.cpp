@@ -16,6 +16,7 @@ void Game::free()
     SDL_DestroyWindow(gWindow);
     SDL_DestroyRenderer(gRenderer);
     delete ballTexture;
+	delete bgTexture;
 	delete ball;
 	// delete staticBallTexture;
 	// delete checkCollision;
@@ -82,22 +83,14 @@ bool Game::imgInit()
         printf("load img error \n");
         return false;
     }
-	// if (!staticBallTexture->loadImg(gRenderer, "img/default.bmp"))
-	// {
-	// 	printf("load static ball img error \n");
-	// 	return false;
-	// }
-	// else
-	// {
-	// 	staticBallTexture->setStaticDstRect(100, 10);
-	// }
-	// 矩形框
-	rect.h = 100; rect.w = 100;
-	rect.x = 100; rect.y = 100;
-	// 碰撞体框
-	ballColliderRect.w = ballTexture->getImgWidth();
-	ballColliderRect.h = ballTexture->getImgHeight();
-	//printf("%d, %d", ballColliderRect.w,ballColliderRect.h);
+	if (!bgTexture->loadImg(gRenderer, "img/bg.png"))
+	{
+		printf("load img error \n");
+		return false;
+	}
+	// 初始化cameraRect
+	cameraDstRect = {0, 0, w, h};
+	bgSrcRect = {150, 150, w, h};
     return true;
 }
 
@@ -110,18 +103,20 @@ void Game::gameEvent(SDL_Event e)
             isRunning = false;
         }
 		ball->ballEvent(e);
-
     }
 }
 
 void Game::gameUpdate()
 {	
-	ball->doMove(ballTexture, w, h, rect, ballColliderRect);
+	ball->doMove(ballTexture, w, h, bgSrcRect.x, bgSrcRect.y);
 }
 
 void Game::gameRender()
 {
 	SDL_SetRenderDrawColor(gRenderer, 255, 0, 0, 0);
-	SDL_RenderDrawRect(gRenderer, &rect);
+	//cameraDstRect的x，y永远是（0,0）h，w 永远是window的w和h
+	//bgSrcRect的x，y是变的，h，w永远是window的w和h
+	printf("%d\n", bgSrcRect.x);
+	SDL_RenderCopy(gRenderer, bgTexture->gTexture, &bgSrcRect, &cameraDstRect);
     ball->ballRendererDstMove(gRenderer, ballTexture);
 }

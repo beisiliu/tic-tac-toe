@@ -1,4 +1,4 @@
-// check collision
+// camera
 #include "Game.h"
 
 int main(int argc, char* argv[])
@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 	Uint32 frameTime = 0;
 
 	Game *mainGame = new Game();
-	mainGame->gameSetting();
+	mainGame->gameSetting(300, 300);
 	if(!mainGame->gameInit())
 	{
 		printf("Game init error \n");
@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
 	}
 
 	SDL_Event e;
+
 	while(mainGame->isRunning)
 	{
 		frameStartTime = SDL_GetTicks();
@@ -31,6 +32,8 @@ int main(int argc, char* argv[])
 		
 		// bg CL
 		SDL_SetRenderDrawColor(mainGame->gRenderer, 255, 255, 255, 255);
+
+		// Render01
 		SDL_RenderClear(mainGame->gRenderer);
 		mainGame->gameRender();
 		SDL_RenderPresent(mainGame->gRenderer);

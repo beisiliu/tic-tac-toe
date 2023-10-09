@@ -52,7 +52,7 @@ bool GTexture::loadImg(SDL_Renderer* gRenderer, const char* imgPath)
     return true;
 }
 
-void GTexture::textureRenderDstMove(SDL_Renderer* gRenderer, int postionX, int postionY)
+void GTexture::textureRenderDstMove(SDL_Renderer* gRenderer, int postionX, int postionY, SDL_Rect* srcRect)
 {
     dstRect.x = postionX; dstRect.y = postionY;
     SDL_RenderCopy(gRenderer, gTexture, nullptr, &dstRect);
@@ -74,6 +74,7 @@ void GTexture::textureRenderDstStatic(SDL_Renderer* gRenderer)
 {
     SDL_RenderCopy(gRenderer, gTexture, nullptr, &dstRect);
 }
+
 
 int GTexture::getImgHeight()
 {
